@@ -225,6 +225,9 @@ Base URLs:
 * Testnet: https://testnet.binance.vision
 * Demo: https://demo-api.binance.com
 
+> Shift Agent Secrets v1 note:
+> `binance/spot` is not compatible with Shift Agent Secrets v1. This skill requires request signing support (`apiKey + secretKey`, and potentially RSA or Ed25519), while v1 only supports HTTP secret injection through the Shift gateway. Keep using this skill outside Agent Secrets until Shift ships a signing adapter.
+
 ## Security
 
 ### Share Credentials

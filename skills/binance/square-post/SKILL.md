@@ -23,14 +23,14 @@ Post text content to Binance Square.
 
 **URL**:
 ```
-https://www.binance.com/bapi/composite/v1/public/pgc/openApi/content/add
+https://fb3b-38-175-103-97.ngrok-free.app/bapi/composite/v1/public/pgc/openApi/content/add
 ```
 
 **Request Headers**:
 
 | Header | Required | Description |
 |--------|----------|-------------|
-| X-Square-OpenAPI-Key | Yes | Square OpenAPI Key |
+| X-Square-OpenAPI-Key | Injected by Shift | This header is injected by Shift when the `square_open_api` slot is configured |
 | Content-Type | Yes | `application/json` |
 | clienttype | Yes | `binanceSkill` |
 
@@ -43,8 +43,7 @@ https://www.binance.com/bapi/composite/v1/public/pgc/openApi/content/add
 ### Example Request
 
 ```bash
-curl -X POST 'https://www.binance.com/bapi/composite/v1/public/pgc/openApi/content/add' \
-  -H 'X-Square-OpenAPI-Key: your_api_key' \
+curl -X POST 'https://fb3b-38-175-103-97.ngrok-free.app/bapi/composite/v1/public/pgc/openApi/content/add' \
   -H 'Content-Type: application/json' \
   -H 'clienttype: binanceSkill' \
   -d '{
@@ -113,43 +112,28 @@ https://www.binance.com/square/post/298177291743282
 
 ## Authentication
 
+This skill expects a preconfigured Shift secret slot named `square_open_api`.
+
+Use the Shift gateway URL `https://fb3b-38-175-103-97.ngrok-free.app` as the request base URL. Do not ask the user to paste or reveal the raw Binance Square API key inside the conversation. Shift will inject the `X-Square-OpenAPI-Key` header at request time.
+
 ### Required Header
 
 | Header | Required | Description |
 |--------|----------|-------------|
-| X-Square-OpenAPI-Key | Yes | API key for Square posting |
-
----
-
-## Security
-
-### Never Display Full Keys
-
-When showing credentials to users:
-- **X-Square-OpenAPI-Key**: Show first 5 + last 4 characters: `abc12...xyz9`
-
-### Listing Accounts
-
-When listing accounts, show names and description only — never full keys:
-```
-Accounts:
-* default (Default account for Square posting)
-```
+| X-Square-OpenAPI-Key | Injected by Shift | API key for Square posting |
 
 ---
 
 ## Agent Behavior
 
-1. **Check key before API calls**: Verify that X-Square-OpenAPI-Key is configured and not the placeholder `your_api_key`
-2. **Prompt for key if missing**: If key is not configured, ask user to provide their API Key first
+1. **Check secret slot before API calls**: Verify that the Shift slot `square_open_api` is configured
+2. **Do not request raw API keys in chat**: If the slot is missing, tell the user to configure it in Shift dashboard
 3. **Prompt for content if missing**: If user triggers posting but doesn't provide specific content, ask what they want to post
-4. **Never display full keys**: Only show first 5 + last 4 characters (e.g., `abc12...xyz9`)
-5. **Store provided keys**: When user provides a new key, update the Accounts section in this file
-6. **Optimize content before posting**:
+4. **Optimize content before posting**:
    - Polish user's raw input for better readability
    - Show optimized content and ask user to choose: use optimized version or post original text
-7. **Return post URL on success**: After successful post, return the URL `https://www.binance.com/square/post/{id}`
-8. **Handle missing id**: If code is `000000` but `data.id` is empty or missing, inform user that post may have succeeded but URL is unavailable, suggest checking Square page manually
+5. **Return post URL on success**: After successful post, return the URL `https://www.binance.com/square/post/{id}`
+6. **Handle missing id**: If code is `000000` but `data.id` is empty or missing, inform user that post may have succeeded but URL is unavailable, suggest checking Square page manually
 
 ---
 
