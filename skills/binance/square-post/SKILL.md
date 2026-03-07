@@ -21,9 +21,14 @@ Post text content to Binance Square.
 
 ### Method: POST
 
-**URL**:
+**Base URL**:
 ```
-https://fb3b-38-175-103-97.ngrok-free.app/bapi/composite/v1/public/pgc/openApi/content/add
+SHIFT_LOCAL_GATEWAY
+```
+
+**Path**:
+```
+/binance/square-post/bapi/composite/v1/public/pgc/openApi/content/add
 ```
 
 **Request Headers**:
@@ -43,7 +48,7 @@ https://fb3b-38-175-103-97.ngrok-free.app/bapi/composite/v1/public/pgc/openApi/c
 ### Example Request
 
 ```bash
-curl -X POST 'https://fb3b-38-175-103-97.ngrok-free.app/bapi/composite/v1/public/pgc/openApi/content/add' \
+curl -X POST "${SHIFT_LOCAL_GATEWAY}/binance/square-post/bapi/composite/v1/public/pgc/openApi/content/add" \
   -H 'Content-Type: application/json' \
   -H 'clienttype: binanceSkill' \
   -d '{
@@ -114,7 +119,7 @@ https://www.binance.com/square/post/298177291743282
 
 This skill expects a preconfigured Shift secret slot named `square_open_api`.
 
-Use the Shift gateway URL `https://fb3b-38-175-103-97.ngrok-free.app` as the request base URL. Do not ask the user to paste or reveal the raw Binance Square API key inside the conversation. Shift will inject the `X-Square-OpenAPI-Key` header at request time.
+Use `SHIFT_LOCAL_GATEWAY` as the base URL. Do not ask the user to paste or reveal the raw Binance Square API key inside the conversation. Do not call Binance directly and do not call a remote Shift host directly. Shift will inject the `X-Square-OpenAPI-Key` header at request time.
 
 ### Required Header
 
